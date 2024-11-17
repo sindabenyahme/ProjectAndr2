@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.Person
@@ -16,7 +18,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,6 +31,8 @@ import androidx.navigation.NavController
 @Composable
 fun FilmScreen(navController: NavController, viewModel: MainViewModel) {
     // Observer les films dans le ViewModel
+    var selectedTab by remember { mutableStateOf("film") } // Onglet sélectionné
+    var searchText by remember { mutableStateOf(TextFieldValue("")) } // Texte de recherche
     val movies by viewModel.movies.collectAsState()
 
     Scaffold(
@@ -35,26 +41,38 @@ fun FilmScreen(navController: NavController, viewModel: MainViewModel) {
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Movie, contentDescription = "Film") },
                     label = { Text("Film") },
-                    selected = false,
-                    onClick = { navController.navigate("film") }
+                    selected = selectedTab == "film",
+                    onClick = {
+                        selectedTab = "film"
+                        navController.navigate("film")
+                    }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Tv, contentDescription = "Series") },
                     label = { Text("Series") },
-                    selected = false,
-                    onClick = { navController.navigate("series") }
+                    selected = selectedTab == "series",
+                    onClick = {
+                        selectedTab = "series"
+                        navController.navigate("series")
+                    }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Star, contentDescription = "Acteur") },
                     label = { Text("Acteur") },
-                    selected = false,
-                    onClick = { navController.navigate("acteur") }
+                    selected = selectedTab == "acteur",
+                    onClick = {
+                        selectedTab = "acteur"
+                        navController.navigate("acteur")
+                    }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Person, contentDescription = "Profil") },
                     label = { Text("Profil") },
-                    selected = false,
-                    onClick = { navController.navigate("profil") }
+                    selected = selectedTab == "profil",
+                    onClick = {
+                        selectedTab = "profil"
+                        navController.navigate("profil")
+                    }
                 )
             }
         }
@@ -76,22 +94,33 @@ fun FilmScreen(navController: NavController, viewModel: MainViewModel) {
                 // Texte à gauche
                 Text(
                     text = "FavAPP",
-                    fontSize = 24.sp, // Taille du texte
+                    fontSize = 32.sp, // Taille du texte
                     fontWeight = FontWeight.Bold, // Texte en gras
                     color = Color.Black, // Couleur du texte
-                    modifier = Modifier.weight(1f) // Prendre de l'espace à gauche
+                    modifier = Modifier.weight(2f) // Prendre de l'espace à gauche
                 )
 
                 var searchText by remember { mutableStateOf(TextFieldValue("")) }
+                val keyboardController = LocalSoftwareKeyboardController.current
+
                 TextField(
                     value = searchText,
                     onValueChange = { searchText = it },
                     placeholder = { Text("Rechercher film ...") },
                     modifier = Modifier
+                        .weight(3f)
+                        .fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(
+                        onSearch = {
+                            viewModel.searchMovies(searchText.text) // Déclenche la recherche avec le texte saisi
+                            keyboardController?.hide() // Masque le clavier après la recherche
+                        }
                     )
-            }
-                Spacer(modifier = Modifier.height(16.dp))
+                )
 
+                Spacer(modifier = Modifier.height(16.dp))
+            }
             // Grille des films (responsive)
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 150.dp), // Responsive grid
@@ -106,4 +135,5 @@ fun FilmScreen(navController: NavController, viewModel: MainViewModel) {
         }
     }
 }
+
 

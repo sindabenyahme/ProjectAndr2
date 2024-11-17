@@ -22,6 +22,7 @@ import com.example.monprofil.ui.theme.FilmScreen
 import com.example.monprofil.ui.theme.MainViewModel
 import com.example.monprofil.ui.theme.MonProfilTheme
 import com.example.monprofil.ui.theme.ProfilScreen
+import com.example.monprofil.ui.theme.Series
 import com.example.monprofil.ui.theme.SeriesScreen
 
 
@@ -41,8 +42,8 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "profil") {
                         composable("profil") { ProfilScreen(navController) }
                         composable("film") { FilmScreen(navController, mainViewModel) }
-                        composable("series") { SeriesScreen(navController) }
-                        composable("acteur") { ActeurScreen(navController) }
+                        composable("series") { SeriesScreen(navController,mainViewModel) }
+                        composable("acteur") { ActeurScreen(navController,mainViewModel) }
                     }
                 }
             }
