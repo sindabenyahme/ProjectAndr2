@@ -46,6 +46,7 @@ import com.example.monprofil.SeriesDestination
 @Composable
 fun SeriesScreen(navController: NavController, viewModel: MainViewModel, onClick: (id: String) -> Unit) {
     var selectedTab by remember { mutableStateOf("series") } // Suivi de l'onglet sélectionné
+    var searchText by remember { mutableStateOf(TextFieldValue("")) } // Texte de recherche
     val series by viewModel.series.collectAsState()
     Scaffold(
         bottomBar = {
