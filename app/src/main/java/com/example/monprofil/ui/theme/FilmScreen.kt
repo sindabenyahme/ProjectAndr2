@@ -1,11 +1,9 @@
 package com.example.monprofil.ui.theme
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -24,12 +22,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.monprofil.ActeursDestination
+import com.example.monprofil.FilmsDestination
+import com.example.monprofil.ProfilDestination
+import com.example.monprofil.SeriesDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilmScreen(navController: NavController, viewModel: MainViewModel) {
+fun FilmScreen(navController: NavController, viewModel: MainViewModel, onClick: (id: String) -> Unit) {
     // Observer les films dans le ViewModel
     var selectedTab by remember { mutableStateOf("film") } // Onglet sélectionné
     var searchText by remember { mutableStateOf(TextFieldValue("")) } // Texte de recherche
@@ -44,7 +45,7 @@ fun FilmScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "film",
                     onClick = {
                         selectedTab = "film"
-                        navController.navigate("film")
+                        navController.navigate(FilmsDestination())
                     }
                 )
                 NavigationBarItem(
@@ -53,7 +54,7 @@ fun FilmScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "series",
                     onClick = {
                         selectedTab = "series"
-                        navController.navigate("series")
+                        navController.navigate(SeriesDestination())
                     }
                 )
                 NavigationBarItem(
@@ -62,7 +63,7 @@ fun FilmScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "acteur",
                     onClick = {
                         selectedTab = "acteur"
-                        navController.navigate("acteur")
+                        navController.navigate(ActeursDestination())
                     }
                 )
                 NavigationBarItem(
@@ -71,7 +72,7 @@ fun FilmScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "profil",
                     onClick = {
                         selectedTab = "profil"
-                        navController.navigate("profil")
+                        navController.navigate(ProfilDestination())
                     }
                 )
             }
@@ -129,11 +130,17 @@ fun FilmScreen(navController: NavController, viewModel: MainViewModel) {
                     .padding(8.dp)
             ) {
                 items(movies) { movie ->
-                    FilmCard(movie = movie)
+                    FilmCard(movie = movie, onClick)
                 }
             }
         }
     }
+
+
 }
+
+
+
+
 
 

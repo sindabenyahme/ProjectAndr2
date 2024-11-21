@@ -21,6 +21,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.monprofil.ActeursDestination
+import com.example.monprofil.FilmDetailDestination
+import com.example.monprofil.FilmsDestination
+import com.example.monprofil.ProfilDestination
+import com.example.monprofil.SeriesDestination
 
 @Composable
 fun ActeurScreen(navController: NavController, viewModel: MainViewModel) {
@@ -39,7 +44,7 @@ fun ActeurScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "film",
                     onClick = {
                         selectedTab = "film"
-                        navController.navigate("film")
+                        navController.navigate(FilmsDestination())
                     }
                 )
                 NavigationBarItem(
@@ -48,7 +53,7 @@ fun ActeurScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "series",
                     onClick = {
                         selectedTab = "series"
-                        navController.navigate("series")
+                        navController.navigate(SeriesDestination())
                     }
                 )
                 NavigationBarItem(
@@ -57,7 +62,7 @@ fun ActeurScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "acteur",
                     onClick = {
                         selectedTab = "acteur"
-                        navController.navigate("acteur")
+                        navController.navigate(ActeursDestination())
                     }
                 )
                 NavigationBarItem(
@@ -66,7 +71,7 @@ fun ActeurScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "profil",
                     onClick = {
                         selectedTab = "profil"
-                        navController.navigate("profil")
+                        navController.navigate(ProfilDestination())
                     }
                 )
             }

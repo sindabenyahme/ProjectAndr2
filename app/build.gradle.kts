@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     kotlin("plugin.serialization") version "1.9.25"
+
 }
 
 android {
@@ -77,11 +78,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
 
-}
-
-dependencies {
 
     implementation(libs.androidx.foundation.layout.android)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("androidx.navigation:navigation-compose:2.8.0")
     implementation ("androidx.compose.material:material-icons-extended:1.0.0")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -95,6 +95,8 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor")
 
     implementation ("com.google.accompanist:accompanist-coil:0.15.0")
+    implementation("io.coil-kt:coil-compose:2.3.0")
+    
 
 
 }

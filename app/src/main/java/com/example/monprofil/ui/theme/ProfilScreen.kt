@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.window.core.layout.WindowWidthSizeClass
+import com.example.monprofil.FilmsDestination
 import com.example.monprofil.R
 
 
@@ -194,7 +195,7 @@ fun LinkedInWithIcon() {
 @Composable
 fun DemarrerButton(navController: NavController) {
     Button(
-        onClick = { navController.navigate("film") },
+        onClick = { navController.navigate(FilmsDestination()) },
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4682B4 )),
         modifier = Modifier.padding(16.dp)
     ) {

@@ -1,6 +1,5 @@
 package com.example.monprofil.ui.theme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,15 +34,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.monprofil.ActeursDestination
+import com.example.monprofil.FilmsDestination
+import com.example.monprofil.ProfilDestination
+import com.example.monprofil.SeriesDestination
 
 @Composable
-fun SeriesScreen(navController: NavController, viewModel: MainViewModel) {
+fun SeriesScreen(navController: NavController, viewModel: MainViewModel, onClick: (id: String) -> Unit) {
     var selectedTab by remember { mutableStateOf("series") } // Suivi de l'onglet sélectionné
     val series by viewModel.series.collectAsState()
     Scaffold(
@@ -55,7 +56,7 @@ fun SeriesScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "film",
                     onClick = {
                         selectedTab = "film"
-                        navController.navigate("film")
+                        navController.navigate(FilmsDestination())
                     }
                 )
                 NavigationBarItem(
@@ -64,7 +65,7 @@ fun SeriesScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "series",
                     onClick = {
                         selectedTab = "series"
-                        navController.navigate("series")
+                        navController.navigate(SeriesDestination())
                     }
                 )
                 NavigationBarItem(
@@ -73,7 +74,7 @@ fun SeriesScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "acteur",
                     onClick = {
                         selectedTab = "acteur"
-                        navController.navigate("acteur")
+                        navController.navigate(ActeursDestination())
                     }
                 )
                 NavigationBarItem(
@@ -82,7 +83,7 @@ fun SeriesScreen(navController: NavController, viewModel: MainViewModel) {
                     selected = selectedTab == "profil",
                     onClick = {
                         selectedTab = "profil"
-                        navController.navigate("profil")
+                        navController.navigate(ProfilDestination())
                     }
                 )
             }
@@ -134,7 +135,7 @@ fun SeriesScreen(navController: NavController, viewModel: MainViewModel) {
                     .padding(8.dp)
             ) {
                 items(series) { serie ->
-                    SerieCard(serie = serie)
+                    SerieCard(serie = serie,onClick)
                 }
             }
         }
