@@ -1,11 +1,4 @@
-package com.example.monprofil
-import com.example.monprofil.ui.theme.DetailedMovie
-import com.example.monprofil.ui.theme.DetailedSerie
-import com.example.monprofil.ui.theme.MovieCreditsResult
-import com.example.monprofil.ui.theme.SerieCreditsResult
-import com.example.monprofil.ui.theme.TmbdResult
-import com.example.monprofil.ui.theme.TmdbActeur
-import com.example.monprofil.ui.theme.TmdbSeries
+package com.example.monprofil.ui.theme
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

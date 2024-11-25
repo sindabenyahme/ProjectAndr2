@@ -1,4 +1,5 @@
 package com.example.monprofil.ui.theme
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,12 +14,15 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.Tv
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -34,20 +38,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.monprofil.ActeursDestination
-import com.example.monprofil.FilmsDestination
-import com.example.monprofil.ProfilDestination
-import com.example.monprofil.SeriesDestination
+
 
 @Composable
 fun SeriesScreen(navController: NavController, viewModel: MainViewModel, onClick: (id: String) -> Unit) {
-    var selectedTab by remember { mutableStateOf("series") } // Suivi de l'onglet sélectionné
-    var searchText by remember { mutableStateOf(TextFieldValue("")) } // Texte de recherche
+    var selectedTab by remember { mutableStateOf("series") }
+    var isSearchActive by remember { mutableStateOf(false) } // Contrôle l'affichage du champ de recherche
+    var searchText by remember { mutableStateOf("") }
     val series by viewModel.series.collectAsState()
+
     Scaffold(
         bottomBar = {
             NavigationBar(containerColor = Color(0xFFADD8E6)) {
@@ -94,53 +99,75 @@ fun SeriesScreen(navController: NavController, viewModel: MainViewModel, onClick
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Top
         ) {
-            // Ligne avec texte à gauche et barre de recherche à droite
+            // Barre supérieure avec fond coloré
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically, // Aligner verticalement au centre
-                horizontalArrangement = Arrangement.SpaceBetween // Espacer les éléments
+                    .fillMaxWidth()
+                    .background(Color(0xFFADD8E6)) // Couleur uniforme
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Texte à gauche
-
-
-                var searchText by remember { mutableStateOf(TextFieldValue("")) }
-                val keyboardController = LocalSoftwareKeyboardController.current
-
-                TextField(
-                    value = searchText,
-                    onValueChange = { searchText = it },
-                    placeholder = { Text("Rechercher series ...") },
-                    modifier = Modifier
-                        .weight(3f)
-                        .fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                    keyboardActions = KeyboardActions(
-                        onSearch = {
-                            viewModel.searchSeries(searchText.text) // Déclenche la recherche avec le texte saisi
-                            keyboardController?.hide() // Masque le clavier après la recherche
-                        }
+                if (!isSearchActive) {
+                    // Affiche "FavAPP" et l'icône de recherche
+                    Text(
+                        text = "FavAPP",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
                     )
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
+                    IconButton(onClick = { isSearchActive = true }) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Recherche",
+                            tint = Color.Black
+                        )
+                    }
+                } else {
+                    // Affiche le champ de recherche
+                    TextField(
+                        value = searchText,
+                        onValueChange = { searchText = it },
+                        placeholder = { Text("Rechercher series...") },
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 8.dp),
+                        leadingIcon = {
+                            Icon(Icons.Default.Search, contentDescription = "Recherche")
+                        },
+                        trailingIcon = {
+                            IconButton(onClick = {
+                                isSearchActive = false
+                                searchText = "" // Réinitialise la recherche
+                            }) {
+                                Icon(Icons.Default.Close, contentDescription = "Fermer")
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                        keyboardActions = KeyboardActions(
+                            onSearch = {
+                                viewModel.searchSeries(searchText)
+                            }
+                        )
+                    )
+                }
             }
-            // Grille des films (responsive)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Grille des séries
             LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 150.dp), // Responsive grid
+                columns = GridCells.Adaptive(minSize = 150.dp),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(8.dp)
             ) {
                 items(series) { serie ->
-                    SerieCard(serie = serie,onClick)
+                    SerieCard(serie = serie, onClick)
                 }
             }
         }
     }
 }
-
-

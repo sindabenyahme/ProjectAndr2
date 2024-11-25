@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     kotlin("plugin.serialization") version "1.9.25"
+// hilt
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 
 }
 
@@ -96,7 +99,10 @@ dependencies {
 
     implementation ("com.google.accompanist:accompanist-coil:0.15.0")
     implementation("io.coil-kt:coil-compose:2.3.0")
-    
+    // pour hilt
+    implementation("com.google.dagger:hilt-android:2.52")
+    kapt("com.google.dagger:hilt-compiler:2.52")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
 
 }

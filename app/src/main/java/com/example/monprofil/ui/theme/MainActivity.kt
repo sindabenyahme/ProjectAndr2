@@ -1,4 +1,4 @@
-package com.example.monprofil
+package com.example.monprofil.ui.theme
 
 import ScreenFilmsDetails
 import android.annotation.SuppressLint
@@ -18,14 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.monprofil.ui.theme.ActeurScreen
 
-import com.example.monprofil.ui.theme.FilmScreen
-import com.example.monprofil.ui.theme.MainViewModel
-import com.example.monprofil.ui.theme.MonProfilTheme
-import com.example.monprofil.ui.theme.ProfilScreen
-import com.example.monprofil.ui.theme.ScreenSerieDetails
-import com.example.monprofil.ui.theme.SeriesScreen
 import kotlinx.serialization.Serializable
 
 @Serializable class ProfilDestination()
